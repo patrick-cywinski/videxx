@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videxx - Account</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #17384a;
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255,255,255,0.95) 0 3%, transparent 4%),
+        radial-gradient(circle at 80% 25%, rgba(255,255,255,0.7) 0 2%, transparent 3%),
+        linear-gradient(
+          180deg,
+          #74d9f7 0%,
+          #38bde9 28%,
+          #1597d0 65%,
+          #0875ad 100%
+        );
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 50% -10%,
+          rgba(255,255,255,0.75),
+          transparent 45%
+        );
+      opacity: 0.75;
+    }
+
+    .login-window {
+      width: 100%;
+      max-width: 430px;
+      position: relative;
+    }
+
+    .videx-logo {
+      text-align: center;
+      margin-bottom: 18px;
+      font-family: Arial Black, Arial, Helvetica, sans-serif;
+      font-size: 58px;
+      font-style: italic;
+      font-weight: 900;
+      letter-spacing: -5px;
+      line-height: 0.9;
+      color: #ffffff;
+      transform: skewX(-7deg);
+      text-shadow:
+        3px 3px 0 #b9efff,
+        6px 6px 0 #168bd0,
+        8px 8px 7px rgba(0, 63, 110, 0.35);
+      user-select: none;
+    }
+
+    .aero-panel {
+      background:
+        linear-gradient(
+          180deg,
+          #f8fdff 0%,
+          #e9f8fd 8%,
+          #c8e9f5 48%,
+          #a7d8e9 100%
+        );
+      border: 2px solid #ffffff;
+      border-radius: 12px;
+      padding: 26px;
+      box-shadow:
+        0 2px 0 rgba(0, 82, 126, 0.7),
+        0 8px 18px rgba(0, 50, 90, 0.35),
+        inset 0 1px 0 #ffffff,
+        inset 0 -2px 5px rgba(37, 124, 161, 0.25);
+    }
+
+    .panel-title {
+      text-align: center;
+      color: #075b8b;
+      font-size: 23px;
+      font-weight: bold;
+      text-shadow: 0 1px 0 #ffffff;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .input-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      color: #164b65;
+      font-size: 13px;
+      font-weight: bold;
+      text-shadow: 0 1px 0 #ffffff;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      height: 42px;
+      padding: 8px 12px;
+      border: 1px solid #72aabd;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #17384a;
+      font-size: 15px;
+      outline: none;
+      box-shadow:
+        inset 0 2px 4px rgba(0, 70, 100, 0.18),
+        0 1px 0 #ffffff;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #168fd0;
+      box-shadow:
+        inset 0 2px 4px rgba(0, 70, 100, 0.18),
+        0 0 5px rgba(24, 157, 218, 0.6);
+    }
+
+    .btn-login {
+      width: 100%;
+      height: 43px;
+      margin-top: 6px;
+      border: 1px solid #0065a0;
+      border-radius: 6px;
+      background:
+        linear-gradient(
+          180deg,
+          #72dcff 0%,
+          #20b5ef 45%,
+          #078bd0 50%,
+          #0c9ddd 100%
+        );
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-shadow: 0 -1px 1px rgba(0, 55, 90, 0.8);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset 0 -2px 3px rgba(0,75,120,0.35),
+        0 2px 4px rgba(0,60,90,0.3);
+    }
+
+    .btn-login:hover {
+      background:
+        linear-gradient(
+          180deg,
+          #9aeaff 0%,
+          #43c7f5 45%,
+          #119bdd 50%,
+          #25afe7 100%
+        );
+    }
+
+    .rules-notice {
+      margin-top: 10px;
+      font-size: 11px;
+      color: #164b65;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .toggle-area {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #075b8b;
+    }
+
+    .toggle-area button {
+      background: none;
+      border: none;
+      color: #004c77;
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    #errorBox {
+      display: none;
+      margin-top: 12px;
+      padding: 9px 10px;
+      border: 1px solid #c96b6b;
+      border-radius: 5px;
+      background: #ffe7e7;
+      color: #9b1717;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 14px;
+      color: #e9fbff;
+      font-size: 11px;
+      text-shadow: 0 1px 2px rgba(0,50,90,0.5);
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="login-window">
+    <div class="videx-logo">Videxx</div>
+
+    <section class="aero-panel">
+      <div id="panelTitle" class="panel-title">Login</div>
+
+      <form id="authForm" class="form-group" novalidate>
+        <div class="input-field">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            maxlength="10"
+            autocomplete="off"
+            required
+          >
+        </div>
+
+        <div class="input-field">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            maxlength="10"
+            autocomplete="off"
+            required
+          >
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-login">
+          Log In
+        </button>
+
+        <div id="rulesNotice" class="rules-notice" style="display: none;">
+          By clicking this you agree to website rules.
+        </div>
+      </form>
+
+      <div id="errorBox"></div>
+
+      <div class="toggle-area">
+        <span id="toggleText">Don't have an account?</span>
+        <button type="button" id="toggleBtn">Sign Up</button>
+      </div>
+    </section>
+
+    <div class="footer-text">Videxx</div>
+  </main>
+
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+    const userSupabaseUrl = "https://fphfzpfoigbtshambkxb.supabase.co";
+    const userSupabaseKey = "sb_publishable_TWZESGuSDlQj0j6ukSCPxw_QjjYqMv6";
+
+    const userSupabase = createClient(userSupabaseUrl, userSupabaseKey);
+
+    const authForm = document.getElementById("authForm");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const panelTitle = document.getElementById("panelTitle");
+    const submitBtn = document.getElementById("submitBtn");
+    const rulesNotice = document.getElementById("rulesNotice");
+    const toggleText = document.getElementById("toggleText");
+    const toggleBtn = document.getElementById("toggleBtn");
+    const errorBox = document.getElementById("errorBox");
+
+    let isSignUp = false;
+
+    usernameInput.addEventListener("input", function() {
+      if (this.value.includes(" ")) {
+        this.value = this.value.replace(/\s+/g, "-");
+        showError("Spaces are not allowed. Converted to '-'.");
+      }
+    });
+
+    toggleBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      isSignUp = !isSignUp;
+      clearError();
+      authForm.reset();
+
+      if (isSignUp) {
+        panelTitle.textContent = "Sign Up";
+        submitBtn.textContent = "Sign Up";
+        rulesNotice.style.display = "block";
+        toggleText.textContent = "Already have an account?";
+        toggleBtn.textContent = "Log In";
+      } else {
+        panelTitle.textContent = "Login";
+        submitBtn.textContent = "Log In";
+        rulesNotice.style.display = "none";
+        toggleText.textContent = "Don't have an account?";
+        toggleBtn.textContent = "Sign Up";
+      }
+    });
+
+    authForm.addEventListener("submit", async function(event) {
+      event.preventDefault();
+      clearError();
+
+      let username = usernameInput.value.trim();
+      let password = passwordInput.value;
+
+      if (!username || !password) {
+        showError("Please enter both username and password.");
+        return;
+      }
+
+      if (username.includes(" ")) {
+        showError("Username cannot contain spaces. Use '-' or '_' instead.");
+        return;
+      }
+
+      if (username.length > 10) {
+        showError("Username must be 10 characters or less.");
+        return;
+      }
+
+      if (password.length > 10) {
+        showError("Password must be 10 characters or less.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+
+      try {
+        if (isSignUp) {
+          const { data: existingUser, error: checkError } = await userSupabase
+            .from("users")
+            .select("username")
+            .eq("username", username)
+            .maybeSingle();
+
+          if (checkError) {
+            showError("Database error: " + checkError.message);
+            submitBtn.disabled = false;
+            return;
+          }
+
+          if (existingUser) {
+            showError("That username is already taken. Please choose another.");
+            submitBtn.disabled = false;
+            return;
+          }
+
+          const today = new Date();
+          const day = String(today.getDate()).padStart(2, "0");
+          const month = String(today.getMonth() + 1).padStart(2, "0");
+          const year = today.getFullYear();
+          const signupDate = `${day}/${month}/${year}`;
+
+          const { error: insertError } = await userSupabase
+            .from("users")
+            .insert([
+              {
+                username: username,
+                password: password,
+                created_date: signupDate
+              }
+            ]);
+
+          if (insertError) {
+            showError("Could not sign up: " + insertError.message);
+            submitBtn.disabled = false;
+            return;
+          }
+
+          localStorage.setItem("videxName", username);
+          localStorage.setItem("videx_username", username);
+          window.location.href = "home.html";
+
+        } else {
+          const { data: user, error: fetchError } = await userSupabase
+            .from("users")
+            .select("*")
+            .eq("username", username)
+            .maybeSingle();
+
+          if (fetchError) {
+            showError("Connection error: " + fetchError.message);
+            submitBtn.disabled = false;
+            return;
+          }
+
+          if (!user) {
+            showError("There is no account for that username.");
+            submitBtn.disabled = false;
+            return;
+          }
+
+          if (user.password !== password) {
+            showError("The password is incorrect.");
+            submitBtn.disabled = false;
+            return;
+          }
+
+          localStorage.setItem("videxName", username);
+          localStorage.setItem("videx_username", username);
+          window.location.href = "home.html";
+        }
+      } catch (err) {
+        showError("An unexpected error occurred: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = "block";
+    }
+
+    function clearError() {
+      errorBox.textContent = "";
+      errorBox.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
