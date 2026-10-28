@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="Videx-icon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videxx - Home</title>
+
+  <style>
+    /* Dynamic Accent Color CSS Variables (Defaults to Blue) */
+    :root {
+      --accent-deg-1: #74d9f7;
+      --accent-deg-2: #38bde9;
+      --accent-deg-3: #1597d0;
+      --accent-deg-4: #0875ad;
+      --accent-btn-1: #65d5ff;
+      --accent-btn-2: #20afea;
+      --accent-btn-3: #0786cb;
+      --accent-btn-4: #079bdc;
+      --accent-btn-border: #00699e;
+      --logo-shadow-1: #b9efff;
+      --logo-shadow-2: #168bd0;
+      --header-bg-1: #daf4ff;
+      --header-bg-2: #b2e5fc;
+      --header-bg-3: #90d7f5;
+      --header-bg-4: #b8ebfd;
+      --panel-glow: rgba(37, 124, 161, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #17384a;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,255,255,0.95) 0 2%, transparent 3%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.75) 0 2%, transparent 3%),
+        linear-gradient(
+          180deg,
+          var(--accent-deg-1) 0%,
+          var(--accent-deg-2) 25%,
+          var(--accent-deg-3) 65%,
+          var(--accent-deg-4) 100%
+        );
+      min-height: 100vh;
+      padding: 0 15px 40px;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 50% -10%,
+          rgba(255,255,255,0.8),
+          transparent 45%
+        );
+      opacity: 0.75;
+    }
+
+    .site-header {
+      width: 100vw;
+      position: relative;
+      left: calc(-50vw + 50%);
+      background:
+        linear-gradient(
+          180deg,
+          var(--header-bg-1) 0%,
+          var(--header-bg-2) 50%,
+          var(--header-bg-3) 51%,
+          var(--header-bg-4) 100%
+        );
+      border-bottom: 2px solid #ffffff;
+      padding: 15px 20px 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(0, 50, 90, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-buttons-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .nav-btn {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      height: 33px;
+      padding: 0 16px;
+      border-radius: 6px;
+      color: #17384a;
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #f2f9fc 45%,
+          #d2eaf4 50%,
+          #e5f4fb 100%
+        );
+      border: 1px solid #72aabd;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset 0 -2px 3px rgba(0,70,100,0.15),
+        0 2px 4px rgba(0,50,80,0.2);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-btn:hover {
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #ffffff 45%,
+          #e3f3fb 50%,
+          #f0f8fd 100%
+        );
+      border-color: #5193a8;
+    }
+
+    .nav-btn.active {
+      color: #ffffff;
+      background:
+        linear-gradient(
+          180deg,
+          var(--accent-btn-1) 0%,
+          var(--accent-btn-2) 45%,
+          var(--accent-btn-3) 50%,
+          var(--accent-btn-4) 100%
+        );
+      border-color: var(--accent-btn-border);
+      text-shadow: 0 -1px 1px rgba(0,50,80,0.7);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset 0 -2px 3px rgba(0,60,100,0.3),
+        0 2px 4px rgba(0,50,80,0.25);
+    }
+
+    #mainApp {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      position: relative;
+    }
+
+    .videx-logo {
+      text-align: center;
+      margin: 0;
+      font-family: Arial Black, Arial, Helvetica, sans-serif;
+      font-size: 56px;
+      font-style: italic;
+      font-weight: 900;
+      letter-spacing: -6px;
+      line-height: 0.9;
+      color: #ffffff;
+      transform: skewX(-7deg);
+      text-shadow:
+        3px 3px 0 var(--logo-shadow-1),
+        6px 6px 0 var(--logo-shadow-2),
+        9px 9px 8px rgba(0, 63, 110, 0.35);
+      user-select: none;
+    }
+
+    .main-panel {
+      background:
+        linear-gradient(
+          180deg,
+          #f8fdff 0%,
+          #e9f8fd 7%,
+          #c9e9f5 48%,
+          #a8d8e9 100%
+        );
+      border: 2px solid #ffffff;
+      border-radius: 12px;
+      box-shadow:
+        0 2px 0 rgba(0, 82, 126, 0.7),
+        0 8px 18px rgba(0, 50, 90, 0.35),
+        inset 0 1px 0 #ffffff,
+        inset 0 -2px 5px var(--panel-glow);
+      overflow: hidden;
+    }
+
+    .user-section {
+      padding: 16px;
+    }
+
+    .section-title {
+      color: #075b8b;
+      font-size: 18px;
+      font-weight: bold;
+      text-shadow: 0 1px 0 #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .user-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    #nameDisplay {
+      flex: 1;
+      min-width: 0;
+      height: 39px;
+      padding: 8px 11px;
+      border: 1px solid #72aabd;
+      border-radius: 5px;
+      background: #ffffff;
+      color: #164b65;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.425),
+        0 1px 0 #ffffff;
+    }
+
+    .aero-divider {
+      height: 2px;
+      margin: 0 14px;
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(255,255,255,0.95) 8%,
+          #79bdd5 50%,
+          rgba(255,255,255,0.95) 92%,
+          transparent
+        );
+      box-shadow:
+        0 1px 0 rgba(54, 126, 154, 0.3);
+    }
+
+    .post-section {
+      padding: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      resize: vertical;
+      padding: 10px;
+      border: 1px solid #72aabd;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #17384a;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+      outline: none;
+      box-shadow:
+        inset 0 2px 5px rgba(0,70,100,0.17),
+        0 1px 0 #ffffff;
+    }
+
+    textarea:focus {
+      border-color: #159bd8;
+      box-shadow:
+        inset 0 2px 5px rgba(0,70,100,0.17),
+        0 0 5px rgba(21,155,216,0.5);
+    }
+
+    textarea::placeholder {
+      color: #7894a1;
+    }
+
+    .post-button-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 9px;
+    }
+
+    button {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .aero-button {
+      height: 37px;
+      padding: 0 17px;
+      border-radius: 6px;
+      color: #ffffff;
+      border: 1px solid #176a91;
+      text-shadow: 0 -1px 1px rgba(0,50,80,0.7);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.9),
+        inset 0 -2px 3px rgba(0,60,100,0.3),
+        0 2px 4px rgba(0,50,80,0.25);
+    }
+
+    .aero-button:active {
+      transform: translateY(1px);
+      box-shadow:
+        inset 0 2px 4px rgba(0,50,80,0.35),
+        0 1px 2px rgba(0,50,80,0.25);
+    }
+
+    #postBtn {
+      background:
+        linear-gradient(
+          180deg,
+          var(--accent-btn-1) 0%,
+          var(--accent-btn-2) 45%,
+          var(--accent-btn-3) 50%,
+          var(--accent-btn-4) 100%
+        );
+      border-color: var(--accent-btn-border);
+    }
+
+    #postBtn:hover {
+      background:
+        linear-gradient(
+          180deg,
+          #91e5ff 0%,
+          #45c5f4 45%,
+          #1096d6 50%,
+          #25ade6 100%
+        );
+    }
+
+    #refreshBtn {
+      background:
+        linear-gradient(
+          180deg,
+          #555555 0%,
+          #252525 45%,
+          #090909 50%,
+          #292929 100%
+        );
+      border-color: #111111;
+    }
+
+    #refreshBtn:hover {
+      background:
+        linear-gradient(
+          180deg,
+          #707070 0%,
+          #373737 45%,
+          #111111 50%,
+          #3c3c3c 100%
+        );
+    }
+
+    #logoutBtn {
+      flex-shrink: 0;
+      background:
+        linear-gradient(
+          180deg,
+          var(--accent-btn-1) 0%,
+          var(--accent-btn-2) 45%,
+          var(--accent-btn-3) 50%,
+          var(--accent-btn-4) 100%
+        );
+      color: #ffffff;
+      text-shadow: 0 -1px 1px rgba(0,50,80,0.7);
+      border-color: var(--accent-btn-border);
+    }
+
+    #logoutBtn:hover {
+      background:
+        linear-gradient(
+          180deg,
+          #a4efff 0%,
+          #4ac8f3 45%,
+          #1198da 50%,
+          #31b4e8 100%
+        );
+    }
+
+    #errorBox {
+      display: none;
+      margin: 12px 16px 0;
+      padding: 9px 10px;
+      border: 1px solid #c96b6b;
+      border-radius: 5px;
+      background: #ffe7e7;
+      color: #9b1717;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .feed-area {
+      margin-top: 18px;
+    }
+
+    .feed-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 9px;
+    }
+
+    #feed {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .post {
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #f7fcfe 50%,
+          #e1f1f6 100%
+        );
+      border: 1px solid #86b6c8;
+      border-radius: 7px;
+      padding: 13px;
+      box-shadow:
+        0 2px 4px rgba(0,60,90,0.22),
+        inset 0 1px 0 #ffffff;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #c1dce6;
+    }
+
+    .author {
+      color: #075f91;
+      font-size: 14px;
+      font-weight: bold;
+      word-break: break-word;
+    }
+
+    .timestamp {
+      color: #718891;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .post-content {
+      margin-top: 9px;
+      color: #244858;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .profile-link {
+      color: #075f91;
+      text-decoration: none;
+    }
+
+    .profile-link:hover {
+      color: #008bd0;
+      text-decoration: underline;
+    }
+
+    .loading-post {
+      text-align: center;
+      color: #527786;
+      font-size: 13px;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 0 10px 30px;
+      }
+
+      .videx-logo {
+        font-size: 46px;
+      }
+
+      .user-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #logoutBtn {
+        width: 100%;
+      }
+
+      .feed-heading {
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      #refreshBtn {
+        flex-shrink: 0;
+      }
+
+      .header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="videx-logo">Videxx</div>
+  <nav class="nav-buttons-container">
+    <a href="home.html" class="nav-btn active">Home</a>
+    <a href="accounts-list.html" class="nav-btn">Accounts</a>
+    <a href="settings.html" class="nav-btn">Settings</a>
+  </nav>
+</header>
+
+<div id="mainApp">
+
+  <section class="main-panel">
+
+    <div class="user-section">
+      <div class="section-title">Logged in as</div>
+
+      <div class="user-row">
+        <input id="nameDisplay" readonly>
+
+        <button id="logoutBtn" class="aero-button">
+          Log Out
+        </button>
+      </div>
+    </div>
+
+    <div class="aero-divider"></div>
+
+    <div class="post-section">
+      <div class="section-title">Create a Post</div>
+
+      <textarea
+        id="postText"
+        rows="4"
+        maxlength="5000"
+        placeholder="Write a post..."
+      ></textarea>
+
+      <div class="post-button-row">
+        <button id="postBtn" class="aero-button">
+          Post
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <div id="errorBox"></div>
+
+  <section class="feed-area">
+
+    <div class="feed-heading">
+      <div></div>
+
+      <button id="refreshBtn" class="aero-button">
+        Refresh
+      </button>
+    </div>
+
+    <div id="feed"></div>
+
+  </section>
+
+</div>
+
+<script>
+  // Color themes definitions
+  const themes = {
+    red: {
+      deg1: "#f7b5b5", deg2: "#e96e6e", deg3: "#d03232", deg4: "#ad0808",
+      btn1: "#ff8080", btn2: "#f03b3b", btn3: "#cb0707", btn4: "#dc0707", btnBorder: "#9e0000",
+      shadow1: "#ffbbbb", shadow2: "#d01616",
+      header1: "#ffdfdf", header2: "#fcb2b2", header3: "#f59090", header4: "#fdb8b8",
+      glow: "rgba(161, 37, 37, 0.25)"
+    },
+    orange: {
+      deg1: "#f7d2b5", deg2: "#e99a6e", deg3: "#d06332", deg4: "#ad3c08",
+      btn1: "#ffb065", btn2: "#ea7e20", btn3: "#cb5607", btn4: "#dc5c07", btnBorder: "#9e3900",
+      shadow1: "#ffdec0", shadow2: "#d05516",
+      header1: "#ffeedf", header2: "#fccbb2", header3: "#f5b090", header4: "#fdc7b8",
+      glow: "rgba(161, 85, 37, 0.25)"
+    },
+    yellow: {
+      deg1: "#f7f1b5", deg2: "#e9dc6e", deg3: "#d0bd32", deg4: "#ad9808",
+      btn1: "#ffea65", btn2: "#eac420", btn3: "#cba507", btn4: "#dcb207", btnBorder: "#9e7e00",
+      shadow1: "#fff9bb", shadow2: "#d0b016",
+      header1: "#fffaef", header2: "#fcefb2", header3: "#f5e390", header4: "#fdeeb8",
+      glow: "rgba(161, 138, 37, 0.25)"
+    },
+    green: {
+      deg1: "#b5f7c2", deg2: "#6ee986", deg3: "#32d050", deg4: "#08ad27",
+      btn1: "#65ff84", btn2: "#20ea46", btn3: "#07cb2e", btn4: "#07dc31", btnBorder: "#009e1e",
+      shadow1: "#bbffc8", shadow2: "#16d039",
+      header1: "#dffff3", header2: "#b2fcc1", header3: "#90f5a4", header4: "#b8fdbd",
+      glow: "rgba(37, 161, 61, 0.25)"
+    },
+    blue: {
+      deg1: "#74d9f7", deg2: "#38bde9", deg3: "#1597d0", deg4: "#0875ad",
+      btn1: "#65d5ff", btn2: "#20afea", btn3: "#0786cb", btn4: "#079bdc", btnBorder: "#00699e",
+      shadow1: "#b9efff", shadow2: "#168bd0",
+      header1: "#daf4ff", header2: "#b2e5fc", header3: "#90d7f5", header4: "#b8ebfd",
+      glow: "rgba(37, 124, 161, 0.25)"
+    },
+    purple: {
+      deg1: "#d9b5f7", deg2: "#bd6ee9", deg3: "#9732d0", deg4: "#7508ad",
+      btn1: "#d565ff", btn2: "#af20ea", btn3: "#8607cb", btn4: "#9b07dc", btnBorder: "#69009e",
+      shadow1: "#efffb9", shadow2: "#8b16d0",
+      header1: "#f4daff", header2: "#e5b2fc", header3: "#d590f5", header4: "#ebb8fd",
+      glow: "rgba(124, 37, 161, 0.25)"
+    },
+    pink: {
+      deg1: "#f7b5e0", deg2: "#e96ec0", deg3: "#d0329b", deg4: "#ad0876",
+      btn1: "#ff65c9", btn2: "#ea209f", btn3: "#cb0784", btn4: "#dc0793", btnBorder: "#9e005d",
+      shadow1: "#ffb9ec", shadow2: "#d0168b",
+      header1: "#ffdff3", header2: "#fcb2e5", header3: "#f590d5", header4: "#fdb8eb",
+      glow: "rgba(161, 37, 124, 0.25)"
+    }
+  };
+
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  }
+
+  const savedColor = getCookie("videxAccent") || "blue";
+  const t = themes[savedColor] || themes["blue"];
+  const root = document.documentElement;
+  root.style.setProperty('--accent-deg-1', t.deg1);
+  root.style.setProperty('--accent-deg-2', t.deg2);
+  root.style.setProperty('--accent-deg-3', t.deg3);
+  root.style.setProperty('--accent-deg-4', t.deg4);
+  root.style.setProperty('--accent-btn-1', t.btn1);
+  root.style.setProperty('--accent-btn-2', t.btn2);
+  root.style.setProperty('--accent-btn-3', t.btn3);
+  root.style.setProperty('--accent-btn-4', t.btn4);
+  root.style.setProperty('--accent-btn-border', t.btnBorder);
+  root.style.setProperty('--logo-shadow-1', t.shadow1);
+  root.style.setProperty('--logo-shadow-2', t.shadow2);
+  root.style.setProperty('--header-bg-1', t.header1);
+  root.style.setProperty('--header-bg-2', t.header2);
+  root.style.setProperty('--header-bg-3', t.header3);
+  root.style.setProperty('--header-bg-4', t.header4);
+  root.style.setProperty('--panel-glow', t.glow);
+</script>
+
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+
+  const postsSupabaseUrl = "https://btpeyadbqscxejitjopi.supabase.co";
+  const postsSupabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0cGV5YWRicXNjeGVqaXRqb3BpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM4MjIzOTQsImV4cCI6MjA3OTM5ODM5NH0.u2Sj-oObFRfPWbtn-Wvr2PbJmxcciucdHcgzyiSCCTg";
+
+  const supabase = createClient(postsSupabaseUrl, postsSupabaseKey);
+
+  const nameDisplay = document.getElementById("nameDisplay");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const postText = document.getElementById("postText");
+  const postBtn = document.getElementById("postBtn");
+  const refreshBtn = document.getElementById("refreshBtn");
+  const errorBox = document.getElementById("errorBox");
+  const feedEl = document.getElementById("feed");
+
+  let currentUserName = (
+    localStorage.getItem("videxName") ||
+    localStorage.getItem("videx_username") ||
+    ""
+  ).trim();
+
+  if (!currentUserName) {
+    window.location.href = "index.html";
+  } else {
+    nameDisplay.value = currentUserName;
+  }
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("videxName");
+    localStorage.removeItem("videx_username");
+    window.location.href = "index.html";
+  });
+
+  postBtn.addEventListener("click", async () => {
+    clearError();
+
+    const text = (postText.value || "").trim();
+
+    if (!text) {
+      showError("Please write something.");
+      return;
+    }
+
+    postBtn.disabled = true;
+    postBtn.textContent = "Posting...";
+
+    const { error } = await supabase
+      .from("posts")
+      .insert([
+        {
+          username: currentUserName,
+          text: text
+        }
+      ]);
+
+    postBtn.disabled = false;
+    postBtn.textContent = "Post";
+
+    if (error) {
+      showError("Post error: " + error.message);
+      return;
+    }
+
+    postText.value = "";
+    await loadPosts();
+  });
+
+  refreshBtn.addEventListener("click", loadPosts);
+
+  async function loadPosts() {
+    clearError();
+    feedEl.innerHTML = '<div class="post loading-post">Loading...</div>';
+
+    const { data, error } = await supabase
+      .from("posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(100);
+
+    if (error) {
+      showError("Load error: " + error.message);
+      feedEl.innerHTML = "";
+      return;
+    }
+
+    feedEl.innerHTML = "";
+
+    if (!data || data.length === 0) {
+      feedEl.innerHTML = '<div class="post loading-post">No posts yet. Be the first to post.</div>';
+      return;
+    }
+
+    data.forEach(post => {
+      const div = document.createElement("div");
+      div.className = "post";
+
+      const header = document.createElement("div");
+      header.className = "header";
+
+      const author = document.createElement("strong");
+      author.className = "author";
+
+      const profileLink = document.createElement("a");
+      profileLink.className = "profile-link";
+      profileLink.href = "profile.html?user=" + encodeURIComponent(post.username || "");
+      profileLink.textContent = post.username || "Anonymous";
+
+      author.appendChild(profileLink);
+
+      const timestamp = document.createElement("span");
+      timestamp.className = "timestamp";
+      const time = post.created_at ? new Date(post.created_at).toLocaleString() : "";
+      timestamp.textContent = time;
+
+      header.appendChild(author);
+      header.appendChild(timestamp);
+
+      const content = document.createElement("div");
+      content.className = "post-content";
+
+      let cleanText = String(post.text || "").replace(/^RATING_V1:\d+:/, "");
+      content.textContent = cleanText;
+
+      div.appendChild(header);
+      div.appendChild(content);
+      feedEl.appendChild(div);
+    });
+  }
+
+  function showError(message) {
+    errorBox.textContent = message;
+    errorBox.style.display = "block";
+  }
+
+  function clearError() {
+    errorBox.textContent = "";
+    errorBox.style.display = "none";
+  }
+
+  loadPosts();
+</script>
+
+</body>
+</html>
